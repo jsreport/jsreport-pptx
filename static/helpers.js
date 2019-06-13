@@ -11,4 +11,8 @@
   global.pptxSlides = function (data, options) {
     return Handlebars.helpers.each(data, options)
   }
+
+  global.pptxImage = function (options) {
+    return new Handlebars.SafeString(`<pptxImage src="${options.hash.src}" />`)
+  }
 })(this)

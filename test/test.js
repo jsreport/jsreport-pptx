@@ -96,4 +96,23 @@ describe('pptx', () => {
     text.should.containEql('Boris')
     text.should.containEql('Pavel')
   })
+
+  it('image', async () => {
+    const result = await reporter.render({
+      template: {
+        engine: 'handlebars',
+        recipe: 'pptx',
+        pptx: {
+          templateAsset: {
+            content: fs.readFileSync(path.join(__dirname, 'image.pptx'))
+          }
+        }
+      },
+      data: {
+        src: 'data:image/png;base64,' + fs.readFileSync(path.join(__dirname, 'image.png')).toString('base64')
+      }
+    })
+
+    fs.writeFileSync('out.pptx', result.content)
+  })
 })
