@@ -11,8 +11,7 @@ describe('pptx', () => {
   beforeEach(() => {
     reporter = jsreport({
       templatingEngines: {
-        strategy: 'in-process',
-        timeout: 999999999999999
+        strategy: 'in-process'
       }
     }).use(require('../')())
       .use(require('jsreport-handlebars')())
