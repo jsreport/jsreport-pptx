@@ -128,7 +128,7 @@ _jsreportStudio2.default.previewListeners.push(function (request, entities) {
     return;
   }
 
-  if (_jsreportStudio2.default.extensions.xlsx.options.showOfficeOnlineWarning === false) {
+  if (_jsreportStudio2.default.extensions.pptx.options.showOfficeOnlineWarning === false) {
     return;
   }
 
