@@ -128,11 +128,11 @@ _jsreportStudio2.default.previewListeners.push(function (request, entities) {
     return;
   }
 
-  if (_jsreportStudio2.default.extensions.pptx.options.showOfficeOnlineWarning === false) {
+  if (_jsreportStudio2.default.extensions.pptx.options.preview.enabled === false) {
     return;
   }
 
-  if (_jsreportStudio2.default.extensions.pptx.options.previewInOfficeOnline === false) {
+  if (_jsreportStudio2.default.extensions.pptx.options.preview.showWarning === false) {
     return;
   }
 

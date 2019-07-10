@@ -37,17 +37,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "archiver": "3.0.0",
-    "axios": "0.19.0",
-    "bluebird": "3.5.5",
-    "form-data": "2.4.0",
-    "get-stream": "5.1.0",
     "image-size": "0.7.4",
-    "jszip": "3.2.1",
-    "node.extend.without.arrays": "1.1.6",
-    "pify": "4.0.1",
-    "stream-to-array": "2.3.0",
-    "yauzl": "2.10.0"
+    "jsreport-office": "github:jsreport/jsreport-office",
+    "node.extend.without.arrays": "1.1.6"
   },
   "devDependencies": {
     "babel-eslint": "10.0.2",
