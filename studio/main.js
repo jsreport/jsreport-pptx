@@ -111,6 +111,26 @@ _jsreportStudio2.default.addPropertiesComponent(_PptxProperties2.default.title, 
   return entity.__entitySet === 'templates' && entity.recipe === 'pptx';
 });
 
+_jsreportStudio2.default.entityEditorComponentKeyResolvers.push(function (entity) {
+  if (entity.__entitySet === 'templates' && entity.recipe === 'pptx') {
+    var officeAsset = void 0;
+
+    if (entity.pptx != null && entity.pptx.templateAssetShortid != null) {
+      officeAsset = _jsreportStudio2.default.getEntityByShortid(entity.pptx.templateAssetShortid, false);
+    }
+
+    return {
+      key: 'officeAsset',
+      entity: officeAsset,
+      props: {
+        icon: 'fa-link',
+        displayName: 'pptx asset: ' + (officeAsset != null ? officeAsset.name : '<none>'),
+        emptyMessage: 'No pptx asset assigned, please add a reference to a pptx asset in the properties'
+      }
+    };
+  }
+});
+
 _jsreportStudio2.default.addApiSpec({
   template: {
     pptx: {

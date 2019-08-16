@@ -3,6 +3,26 @@ import Studio from 'jsreport-studio'
 
 Studio.addPropertiesComponent(Properties.title, Properties, (entity) => entity.__entitySet === 'templates' && entity.recipe === 'pptx')
 
+Studio.entityEditorComponentKeyResolvers.push((entity) => {
+  if (entity.__entitySet === 'templates' && entity.recipe === 'pptx') {
+    let officeAsset
+
+    if (entity.pptx != null && entity.pptx.templateAssetShortid != null) {
+      officeAsset = Studio.getEntityByShortid(entity.pptx.templateAssetShortid, false)
+    }
+
+    return {
+      key: 'officeAsset',
+      entity: officeAsset,
+      props: {
+        icon: 'fa-link',
+        displayName: `pptx asset: ${officeAsset != null ? officeAsset.name : '<none>'}`,
+        emptyMessage: 'No pptx asset assigned, please add a reference to a pptx asset in the properties'
+      }
+    }
+  }
+})
+
 Studio.addApiSpec({
   template: {
     pptx: {
