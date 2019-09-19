@@ -125,7 +125,7 @@ _jsreportStudio2.default.entityEditorComponentKeyResolvers.push(function (entity
       props: {
         icon: 'fa-link',
         embeddingCode: '',
-        showHelp: false,
+        helpersEntity: entity,
         displayName: 'pptx asset: ' + (officeAsset != null ? officeAsset.name : '<none>'),
         emptyMessage: 'No pptx asset assigned, please add a reference to a pptx asset in the properties'
       }
