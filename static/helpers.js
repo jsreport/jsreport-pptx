@@ -8,6 +8,10 @@
     return Handlebars.helpers.each(data, options)
   }
 
+  global.pptxTable = function (data, options) {
+    return Handlebars.helpers.each(data, options)
+  }
+
   global.pptxSlides = function (data, options) {
     return Handlebars.helpers.each(data, options)
   }

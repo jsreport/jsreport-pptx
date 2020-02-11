@@ -114,4 +114,39 @@ describe('pptx', () => {
 
     fs.writeFileSync('out.pptx', result.content)
   })
+
+  it('table', async () => {
+    const result = await reporter.render({
+      template: {
+        engine: 'handlebars',
+        recipe: 'pptx',
+        pptx: {
+          templateAsset: {
+            content: fs.readFileSync(path.join(__dirname, 'table.pptx'))
+          }
+        }
+      },
+      data: {
+        people: [
+          {
+            name: 'Jan',
+            email: 'jan.blaha@foo.com'
+          },
+          {
+            name: 'Boris',
+            email: 'boris@foo.met'
+          },
+          {
+            name: 'Pavel',
+            email: 'pavel@foo.met'
+          }
+        ]
+      }
+    })
+
+    fs.writeFileSync('out.pptx', result.content)
+    const text = await textract('test.pptx', result.content)
+    text.should.containEql('Jan')
+    text.should.containEql('Boris')
+  })
 })
