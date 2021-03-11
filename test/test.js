@@ -3,6 +3,7 @@ const jsreport = require('jsreport-core')
 const fs = require('fs')
 const path = require('path')
 const util = require('util')
+const { decompress } = require('jsreport-office')
 const textract = util.promisify(require('textract').fromBufferWithName)
 
 describe('pptx', () => {
@@ -112,6 +113,10 @@ describe('pptx', () => {
       }
     })
 
+    const files = await decompress()(result.content)
+    const slide = files.find(f => f.path === 'ppt/slides/slide1.xml').data.toString()
+    slide.should.containEql('rId50001')
+    slide.should.containEql('rId50002')
     fs.writeFileSync('out.pptx', result.content)
   })
 
