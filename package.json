@@ -1,6 +1,6 @@
 {
   "name": "jsreport-pptx",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "jsreport recipe rendering pptx files",
   "homepage": "https://github.com/jsreport/jsreport-pptx",
   "repository": {
