@@ -5,6 +5,8 @@ const path = require('path')
 const util = require('util')
 const { decompress } = require('jsreport-office')
 const textract = util.promisify(require('textract').fromBufferWithName)
+const { DOMParser } = require('xmldom')
+const { nodeListToArray } = require('../lib/utils')
 
 describe('pptx', () => {
   let reporter
@@ -65,7 +67,15 @@ describe('pptx', () => {
     text.should.containEql('Jan')
     text.should.containEql('Blaha')
     // the parser somehow don't find the other items on the first run
-    // text.should.containEql('Boris')
+
+    const files = await decompress()(result.content)
+    const presentationStr = files.find(f => f.path === 'ppt/presentation.xml').data.toString()
+    const presentation = new DOMParser().parseFromString(presentationStr)
+    const sldIdLstEl = presentation.getElementsByTagName('p:presentation')[0].getElementsByTagName('p:sldIdLst')[0]
+    const sldIdEls = nodeListToArray(sldIdLstEl.getElementsByTagName('p:sldId'))
+
+    sldIdEls[2].getAttribute('id').should.be.eql('5001')
+    sldIdEls[3].getAttribute('id').should.be.eql('5002')
   })
 
   it('list', async () => {
