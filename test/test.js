@@ -78,6 +78,64 @@ describe('pptx', () => {
     sldIdEls[3].getAttribute('id').should.be.eql('5002')
   })
 
+  it('slides when pptxSlide and other handlebars in the same a:t', async () => {
+    const result = await reporter.render({
+      template: {
+        engine: 'handlebars',
+        recipe: 'pptx',
+        pptx: {
+          templateAsset: {
+            content: fs.readFileSync(path.join(__dirname, 'slides_in_same_node.pptx'))
+          }
+        }
+      },
+      data: {
+        list: [{ text: 'Jan' }, { text: 'Boris' }]
+      }
+    })
+
+    const files = await decompress()(result.content)
+    const presentationStr = files.find(f => f.path === 'ppt/presentation.xml').data.toString()
+    const presentation = new DOMParser().parseFromString(presentationStr)
+    const sldIdLstEl = presentation.getElementsByTagName('p:presentation')[0].getElementsByTagName('p:sldIdLst')[0]
+    const sldIdEls = nodeListToArray(sldIdLstEl.getElementsByTagName('p:sldId'))
+
+    sldIdEls[1].getAttribute('id').should.be.eql('5001')
+  })
+
+  it('slides with image', async () => {
+    const result = await reporter.render({
+      template: {
+        engine: 'handlebars',
+        recipe: 'pptx',
+        pptx: {
+          templateAsset: {
+            content: fs.readFileSync(path.join(__dirname, 'slides_with_image.pptx'))
+          }
+        }
+      },
+      data: {
+        list: [{
+          text: 'Jan',
+          image1: 'data:image/png;base64,' + fs.readFileSync(path.join(__dirname, 'image.png')).toString('base64')
+        }, {
+          text: 'Boris',
+          image1: 'data:image/png;base64,' + fs.readFileSync(path.join(__dirname, 'image.png')).toString('base64')
+        }]
+      }
+    })
+
+    fs.writeFileSync('out.pptx', result.content)
+
+    const files = await decompress()(result.content)
+    const presentationStr = files.find(f => f.path === 'ppt/presentation.xml').data.toString()
+    const presentation = new DOMParser().parseFromString(presentationStr)
+    const sldIdLstEl = presentation.getElementsByTagName('p:presentation')[0].getElementsByTagName('p:sldIdLst')[0]
+    const sldIdEls = nodeListToArray(sldIdLstEl.getElementsByTagName('p:sldId'))
+
+    sldIdEls[1].getAttribute('id').should.be.eql('5001')
+  })
+
   it('list', async () => {
     const result = await reporter.render({
       template: {
