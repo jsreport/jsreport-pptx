@@ -136,6 +136,29 @@ describe('pptx', () => {
     sldIdEls[1].getAttribute('id').should.be.eql('5001')
   })
 
+  it('slides with notes', async () => {
+    const result = await reporter.render({
+      template: {
+        engine: 'handlebars',
+        recipe: 'pptx',
+        pptx: {
+          templateAsset: {
+            content: fs.readFileSync(path.join(__dirname, 'slides_with_notes.pptx'))
+          }
+        }
+      },
+      data: {
+        items: [{ hello: 'Jan' }, { hello: 'Blaha' }, { hello: 'Boris' }]
+      }
+    })
+
+    fs.writeFileSync('out.pptx', result.content)
+
+    const files = await decompress()(result.content)
+    files.find(f => f.path === 'ppt/notesSlides/notesSlide5001.xml').should.be.ok()
+    files.find(f => f.path === 'ppt/notesSlides/notesSlide5002.xml').should.be.ok()
+  })
+
   it('list', async () => {
     const result = await reporter.render({
       template: {
